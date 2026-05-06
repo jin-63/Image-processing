@@ -4,7 +4,7 @@
 < br >이미지의 특징을 추출하고 추적할 수 있도록 원하는 목적에 따라 이미지를 리뷰하는 과정
 ** 특징 추출 및 추적(Feature Extraction and Tracking) **
 < br >정확하고 믿을 수 있는 이미지의 분석 결과를 위해 다양한 변수 처리자를 사용하여
-## ** 이미지1 **
+ ## ** 이미지 프로세싱1 **
 - Google 코랩에서 OpenCV를 사용하여 이미지 출력 및 Numpy배열을 표현 및 이름의 수 확인
 - matplotlib는 RGB를 사용하지만 OpenCV는 BGR을 사용하여 서로 간의 차이를 확인합니다.
 - ROI(Region of Interest)는 이미지나 영상에서 '관심있는 지역'을 지정합니다.
@@ -13,7 +13,7 @@
 - 분리한 이미지의 RGB를 각각의 색상 값으로 표현해서 출력하고 다른 색상으로 변환하기
 - canvas생성 후 OpenCV로 그림그림기(선, 도형, 쓰기)
 - 방금 만든 고양이 이미지 ROI부분에 CAT ROI 표현하기
-  ## ** 이미지2 **
+  ## ** 이미지프로세싱2 **
 ** 스레시홀딩(Thresholding, 청년프로세스) **
 < br >경계점 기준으로 이미지 속을 이루는 모양과 경계선을 이해하기 쉽게 이해하기 위한 바이너리 이미지를 사용하기
 <br> retVal , result = cv2.threshold(sourceImage, thresholdVal, maxVal, thresholdType)
