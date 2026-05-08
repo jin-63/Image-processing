@@ -127,20 +127,24 @@ parameters:
 
 ```cv2.warpAffine(srcimage, matrix, (width, height))```
 
-```[[1, 0, translateX],
-   [0, 1, translateY]]```
+```
+[[1, 0, translateX],
+[0, 1, translateY]]
+```
 
 **2 크기변환**
 
-```cv2.warpAffine(srcImage, matrix,(width, height)```
+```cv2.warpAffine(srcimage, matrix, (width, height))```
 
 ```
 [[scaleX, 0, 0],
-[0,  scaleY, 0]]
+[0, scaleY, 0]]
 ```
 
+
 **resize 함수를 사용한 이미지 크기 변환**
-```cv2.resize(srcimage, dimension, fx, fy, interpolation)```
+
+```cv2.resize(srcimage, dimension, fx, fy, interpolation) ```
 
 Parameters:
 - dimentsion -> 튜플형식의 이미지 사이즈(가로, 세로)
