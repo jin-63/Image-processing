@@ -127,40 +127,17 @@ parameters:
 
 ```cv2.warpAffine(srcimage, matrix, (width, height))```
 
-$$
-\mathbf{M}
-=
-\begin{bmatrix}
-    1   &0    &T_x \\
-    0   &1   &T_y  \\
-\end{bmatrix}
-$$
+```이동변환 넘파이 매트릭스
+   [[1, 0, translateX],
+   [0, 1, translateY]]```
 
-**2 전단변환**
+**2 크기변환**
 
 ```cv2.warpAffine(srcimage, matrix, (width, height))```
 
-$$
-\mathbf{M}
-=
-\begin{bmatrix}
-    1  &S_x    &0 \\
-   S_y    &1   &0  \\
-\end{bmatrix}
-$$
-
-**2 전단변환**
-
-```cv2.warpAffine(srcimage, matrix, (width, height))```
-
-$$
-\mathbf{M}
-=
-\begin{bmatrix}
-  S_x &0 &0 \\
-  0 &S_y &0 \\
-\end{bmatrix}
-$$
+```
+[[scaleX, 0, 0],
+[0,  scaleY, 0]]```
 
 **resize 함수를 사용한 이미지 크기 변환**
 ```cv2.resize(srcimage, dimension, fx, fy, interpolation)```
@@ -177,14 +154,11 @@ Parameters:
 
 ```cv2.warpAffine(srcimage, matrix, (width,height))```
 
-$$
-\mathbf{M}
-=
-\begin{bmatrix}
-    cos\theta   &sin\theta    &0 \\
-    -sin\theta   &cos\theta   &0  \\
-\end{bmatrix}
-$$
+
+```
+[[𝑐𝑜𝑠𝜃, 𝑠𝑖𝑛𝜃, 0],
+[-𝑠𝑖𝑛𝜃, 𝑐𝑜𝑠𝜃, 0]]
+```
 
 2. getRotationMatrix2D(OriginPoint, angle, scale)
 
@@ -197,34 +171,20 @@ $$
   
   ```cv.warpAffine(srcImage,matrix,(width,height))```
 
-$$
-\mathbf{M_{y-axis}}
-=
-\begin{bmatrix}
-    1   &0    &0 \\
-    0   &-1   &0  \\
-\end{bmatrix}
-$$
+```
+[[1, 0, translateX],
+[0, -1, translateY]]
+```
 
+```
+[[-1, 0, translateX],
+[0, 1, translateY]]
+```
 
-$$
-\mathbf{M_{x-axis}}
-=
-\begin{bmatrix}
-    -1   &0    &0 \\
-    0   &1   &0  \\
-\end{bmatrix}
-$$
-
-
-$$
-\mathbf{M_{origin}}
-=
-\begin{bmatrix}
-    -1   &0    &0 \\
-    0   &-1   &0  \\
-\end{bmatrix}
-$$
+```
+[[-1, 0, translateX],
+[0, -1, translateY]]
+```
 
 2. filp 함수를 이용한 반전
 
