@@ -62,6 +62,7 @@ OpenCV는 uint8 자료형으로 0부터 255 값으로 색상과 채도, 명도 �
 
 ## 히스토그램
 히스토그램은 이미지의 픽셀 값 분포를 그래프로 표현
+
 ```cv2.calcHist(image, chennels, mask, histSize, ranges)```
 
 ### RGB 컬러 이미지 2D, 3D 히스토크램 구하기
@@ -77,7 +78,7 @@ OpenCV는 uint8 자료형으로 0부터 255 값으로 색상과 채도, 명도 �
   - 이미지 간의 연산 시 서로 조건이 다른 경우 같은 조건으로 만들기 위해 노멀라이즈 적용
 - 픽셀의 분포를 늘려서(stretching) 이미지의 명암(contrast,색채대비)을 개선
   - 한 곳에 집중된 영역과 멀리 떨어진 값이 있을 경우에는 노말라이즈는 효과가 없음
-  
+
 ```cv2.normerlize(srcimage, dstimage, alpha, beta, norm_type, mask)```
 
 Parameters:
@@ -106,7 +107,8 @@ Parameters:
 
 ### 4. 히스토그램 유사도 비교
 두 이미지의 픽셀 값의 분포를 나타내는 히스토그램을 비교 후 픽셀 값의 분포가 서로 비슷하다면 유사한 이미지일 확률이 높음
-```cv2.compareHist(hist1, hist2, method)``` 
+
+```cv2.compareHist(hist1, hist2, method)```
 
 parameters:
 
@@ -117,3 +119,145 @@ parameters:
   - CV_COMP_INTERSECT: Intersection/교차 (1: 완전 일치, 0: 완전 불일치(- 1로 정규화한 경우))
   - CV_COMP_BHATTACHARYYA: Bhattacharyya distance/바타차야 거리 (0: 완전일치, 1: 최대 불일치)
 
+## ** 기하학적변환 **
+### 어파인 변환(Affine Transformation)
+- 영상을 평행 이동 시키거나 회전, 크기 변환 등에 사용할 수 있음
+
+**1 이동변환**
+
+```cv2.warpAffine(srcimage, matrix, (width, height))```
+
+$$
+\mathbf{M}
+=
+\begin{bmatrix}
+    1   &0    &T_x \\
+    0   &1   &T_y  \\
+\end{bmatrix}
+$$
+
+**2 전단변환**
+
+```cv2.warpAffine(srcimage, matrix, (width, height))```
+
+$$
+\mathbf{M}
+=
+\begin{bmatrix}
+    1  &S_x    &0 \\
+   S_y    &1   &0  \\
+\end{bmatrix}
+$$
+
+**2 전단변환**
+
+```cv2.warpAffine(srcimage, matrix, (width, height))```
+
+$$
+\mathbf{M}
+=
+\begin{bmatrix}
+  S_x &0 &0 \\
+  0 &S_y &0 \\
+\end{bmatrix}
+$$
+
+**resize 함수를 사용한 이미지 크기 변환**
+```cv2.resize(srcimage, dimension, fx, fy, interpolation)```
+
+Parameters:
+- dimentsion -> 튜플형식의 이미지 사이즈(가로, 세로)
+- interpolation(보간법) -> 이미지 크기가 변할 때 픽셀 사이 값을 결정
+  - cv2.INTER_AREA
+  - cv2.INTER_CUBIC
+  - cv2.INTER_LINEAR 
+
+**회전 변환(Rotation Transformation)**
+1. 어파인 매트릭스를 사용한 회전
+
+```cv2.warpAffine(srcimage, matrix, (width,height))```
+
+$$
+\mathbf{M}
+=
+\begin{bmatrix}
+    cos\theta   &sin\theta    &0 \\
+    -sin\theta   &cos\theta   &0  \\
+\end{bmatrix}
+$$
+
+2. getRotationMatrix2D(OriginPoint, angle, scale)
+
+```cv2.getRotationMatrix2D(OriginPoint, angle, scale)```
+
+
+**반전변환(Reflection Transformation)**
+
+1. 어파인 매트릭스를 사용한 반전
+  
+  ```cv.warpAffine(srcImage,matrix,(width,height))```
+
+$$
+\mathbf{M_{y-axis}}
+=
+\begin{bmatrix}
+    1   &0    &0 \\
+    0   &-1   &0  \\
+\end{bmatrix}
+$$
+
+
+$$
+\mathbf{M_{x-axis}}
+=
+\begin{bmatrix}
+    -1   &0    &0 \\
+    0   &1   &0  \\
+\end{bmatrix}
+$$
+
+
+$$
+\mathbf{M_{origin}}
+=
+\begin{bmatrix}
+    -1   &0    &0 \\
+    0   &-1   &0  \\
+\end{bmatrix}
+$$
+
+2. filp 함수를 이용한 반전
+
+```cv2.filp(image, reflection)```
+
+Parameter:
+- reflection
+  - 0:  x축으로 뒤집기 (vertical flipping)
+  - 1:  y축으로 뒤집기 (horizontal flipping)
+  - -1: x축과 y축으로 뒤집기 (vertical and horizontal flipping)
+
+### 이미지의 원근 변환
+**원근 변환 (Perspective Transformation)**
+- 어파인 보다 자유도가 높다
+- 원근 변환은 직사각형 형태의 영상을 임의의 볼록 사각형 형태로 변경할 수 있음
+- 변환 전 이미지와 변환 후 이미지의 네 점의 이동관계에 의해 결정
+- **Perspective Transformation Matrix:** 어파인 변환은 두 이미지의 관계를 정의한 3x3매트릭스로 설명할 수 있다
+- 매트릭스는 numpy.float32 실수형 자료형을 사용
+
+**네 개의 점으로 원근변환 매트릭스 구하기**
+
+```cv2.getPerspectiveTransform(pointBefor, pointAfter)```
+
+### 이미지의 리매핑 (Remapping) 
+- 리매핑은 이미지의 픽셀들을 다른 위치에 재배치하는 변환
+  - remap()함수를 사용해 결과 이미지의 좌표를 원본 이미지의 어느 좌표를 참조해서가져올지 설정후
+  - 결과 이미지의 모든 픽셀값을 셋팅해 결과 이미지를 출력
+- 이미지를 직선이 아닌, 자유도 높은 곡선으로 표현가능
+- 어파인 변환, 투시변환 등, 다양한 변환을 리매핑으로 표현 가능
+
+```cv2.remap(srcImage, mapx, mapy, interpolation)```
+
+parameter:
+- mapx, mapy: 결과 이미지의 (x, y) 좌표가 참조할 원본 이미지의 x좌표와 y좌표
+   - 자료형이 np.float32인 numpy.ndarray
+- interpolation: 보간법
