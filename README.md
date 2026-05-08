@@ -127,17 +127,17 @@ parameters:
 
 ```cv2.warpAffine(srcimage, matrix, (width, height))```
 
-```이동변환 넘파이 매트릭스
-   [[1, 0, translateX],
+```[[1, 0, translateX],
    [0, 1, translateY]]```
 
 **2 크기변환**
 
-```cv2.warpAffine(srcimage, matrix, (width, height))```
+```cv2.warpAffine(srcImage, matrix,(width, height)```
 
 ```
 [[scaleX, 0, 0],
-[0,  scaleY, 0]]```
+[0,  scaleY, 0]]
+```
 
 **resize 함수를 사용한 이미지 크기 변환**
 ```cv2.resize(srcimage, dimension, fx, fy, interpolation)```
